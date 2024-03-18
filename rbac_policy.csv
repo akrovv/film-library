@@ -1,0 +1,21 @@
+p, anonymous, /login, POST
+p, anonymous, /register, POST
+p, anonymous, /docs, GET
+p, anonymous, /swagger.yaml, GET
+
+p, user, /docs, GET
+p, user, /swagger.yaml, GET
+p, user, /actor, GET
+p, user, /movie, GET
+p, user, /actor/*, GET
+p, user, /movie/*, GET
+
+
+p, admin, /actor, *
+p, admin, /movie, *
+p, admin, /actor/*, *
+p, admin, /movie/*, *
+
+g, anonymous, anonymous
+g, user, user
+g, admin, admin

@@ -1,0 +1,426 @@
+basePath: /
+definitions:
+  domain.Actor:
+    properties:
+      actor_id:
+        type: integer
+      actor_name:
+        type: string
+      date_of_birth:
+        type: string
+      gender:
+        type: string
+    type: object
+  domain.ActorWithMovie:
+    properties:
+      actor_name:
+        type: string
+      date_of_birth:
+        type: string
+      gender:
+        type: string
+      title:
+        type: string
+    type: object
+  domain.CRUser:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  domain.CreateActor:
+    properties:
+      actor_name:
+        type: string
+      date_of_birth:
+        type: string
+      gender:
+        type: string
+    type: object
+  domain.CreateMovie:
+    properties:
+      actors:
+        items:
+          type: integer
+        type: array
+      description:
+        type: string
+      movie_title:
+        type: string
+      rating:
+        type: integer
+      release_date:
+        type: string
+    type: object
+  domain.DeleteActor:
+    properties:
+      actor_id:
+        type: integer
+    type: object
+  domain.GetOrderedMovie:
+    properties:
+      order:
+        type: string
+    type: object
+  domain.Movie:
+    properties:
+      actors:
+        items:
+          type: integer
+        type: array
+      description:
+        type: string
+      movie_id:
+        type: integer
+      movie_title:
+        type: string
+      rating:
+        type: integer
+      release_date:
+        type: string
+    type: object
+  domain.MovieWithoudID:
+    properties:
+      description:
+        type: string
+      rating:
+        type: integer
+      releaseDate:
+        type: string
+      title:
+        type: string
+    type: object
+  sender.JSONResponse:
+    properties:
+      data: {}
+      error:
+        type: boolean
+      message:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: API server for FilmLibrary
+  title: FilmLibrary
+  version: "1.0"
+paths:
+  /actor:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an actor from the film library
+      parameters:
+      - description: request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/domain.DeleteActor'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/sender.JSONResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/sender.JSONResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/sender.JSONResponse'
+      summary: Delete
+      tags:
+      - actor
+    get:
+      consumes:
+      - application/json
+      description: Get a list of all actors available in the film library
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.ActorWithMovie'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/sender.JSONResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/sender.JSONResponse'
+      summary: GetList
+      tags:
+      - actor
+    post:
+      consumes:
+      - application/json
+      description: Create an actor in the film library
+      parameters:
+      - description: request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/domain.CreateActor'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/sender.JSONResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/sender.JSONResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/sender.JSONResponse'
+      summary: Create
+      tags:
+      - actor
+    put:
+      consumes:
+      - application/json
+      description: Update details of an existing actor in the film library
+      parameters:
+      - description: request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Actor'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/sender.JSONResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/sender.JSONResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/sender.JSONResponse'
+      summary: Update
+      tags:
+      - actor
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Log in with user credentials
+      parameters:
+      - description: request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/domain.CRUser'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/sender.JSONResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/sender.JSONResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/sender.JSONResponse'
+      summary: Login
+      tags:
+      - user
+  /movie:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a movie from the film library
+      parameters:
+      - description: request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Movie'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/sender.JSONResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/sender.JSONResponse'
+      summary: Delete
+      tags:
+      - movie
+    get:
+      consumes:
+      - application/json
+      description: Delete a movie from the film library
+      parameters:
+      - description: Movie title
+        in: query
+        name: title
+        required: true
+        type: string
+      - description: Actor name
+        in: query
+        name: actor
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.MovieWithoudID'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/sender.JSONResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/sender.JSONResponse'
+      summary: Get
+      tags:
+      - movie
+    post:
+      consumes:
+      - application/json
+      description: Create a new movie in the film library
+      parameters:
+      - description: request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/domain.CreateMovie'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/sender.JSONResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/sender.JSONResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/sender.JSONResponse'
+      summary: Create
+      tags:
+      - movie
+    put:
+      consumes:
+      - application/json
+      description: Update details of an existing movie in the film library
+      parameters:
+      - description: request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Movie'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/sender.JSONResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/sender.JSONResponse'
+      summary: Update
+      tags:
+      - movie
+  /movie/all:
+    get:
+      consumes:
+      - application/json
+      description: Delete a movie from the film library
+      parameters:
+      - description: Order
+        in: query
+        name: order
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.GetOrderedMovie'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/sender.JSONResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/sender.JSONResponse'
+      summary: GetList
+      tags:
+      - movie
+  /register:
+    post:
+      consumes:
+      - application/json
+      description: Register a new user
+      parameters:
+      - description: request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/domain.CRUser'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/sender.JSONResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/sender.JSONResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/sender.JSONResponse'
+      summary: Register
+      tags:
+      - user
+swagger: "2.0"
