@@ -22,7 +22,7 @@ docker-compose up
 ```
 
 ## Стек технологий
-Backend: Golang, PostgreSQL,, Redis, Rest API, docker-compose.
+Backend: Golang, PostgreSQL, Redis, Rest API, docker-compose.
 
 ## Особенности
 - Различные БД: PostgreSQL, Redis для сессий
