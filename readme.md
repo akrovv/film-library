@@ -17,7 +17,7 @@
 
 ## Инструкция по запуску
 ```
-git clone https://github.com/akrovv/reddit-clone.git
+git clone https://github.com/akrovv/film-library.git
 docker-compose up
 ```
 
